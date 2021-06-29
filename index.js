@@ -20,7 +20,7 @@ const readParams = () => {
 };
 
 // function to get tweets matching search query
-const getTweets = (since_id) => {
+const getTweets = (since_id, last_text) => {
   return new Promise((resolve, reject) => {
     let params = {
       q: "#saluki",
@@ -29,6 +29,7 @@ const getTweets = (since_id) => {
 
     if (since_id) {
       params.since_id = since_id;
+      params.last_text = last_text;
     }
 
     twit.get("search/tweets", params, (err, data) => {
@@ -63,14 +64,18 @@ const main = async () => {
     const tweets = data.statuses;
     for await (let tweet of tweets) {
       try {
-        if (parseInt(tweet.id_str) !== parseInt(params.since_id)) {
-          await postRetweet(tweet.id_str);
+        if (
+          parseInt(tweet.id_str) !== parseInt(params.since_id) &&
+          tweet.text !== params.last_text
+        ) {
+          //await postRetweet(tweet.id_str);
           console.log(`Retweeting tweet with id ${tweet.id_str}`);
         }
       } catch (err) {
         console.error(err);
       }
       params.since_id = parseInt(tweet.id_str);
+      params.last_text = tweet.text;
     }
     writeParams(params);
   } catch (err) {
