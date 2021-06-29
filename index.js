@@ -61,11 +61,12 @@ const main = async () => {
     const params = readParams();
     const data = await getTweets(params.since_id);
     const tweets = data.statuses;
-
     for await (let tweet of tweets) {
       try {
-        await postRetweet(tweet.id_str);
-        console.log(`Retweeting tweet with ID ${tweet.id_str}`);
+        if (parseInt(tweet.id_str) !== parseInt(params.since_id)) {
+          await postRetweet(tweet.id_str);
+          console.log(`Retweeting tweet with id ${tweet.id_str}`);
+        }
       } catch (err) {
         console.error(err);
       }
