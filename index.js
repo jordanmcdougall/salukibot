@@ -57,6 +57,22 @@ const postRetweet = (id) => {
   });
 };
 
+// function to favorite tweets that match search
+const postFavorite = (id) => {
+  return new Promise((resolve, reject) => {
+    const params = {
+      id,
+    };
+
+    twit.post("favorites/create", params, (err, data) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(data);
+    });
+  });
+};
+
 const main = async () => {
   try {
     const params = readParams();
@@ -68,8 +84,11 @@ const main = async () => {
           parseInt(tweet.id_str) !== parseInt(params.since_id) &&
           tweet.text !== params.last_text
         ) {
-          //await postRetweet(tweet.id_str);
-          console.log(`Retweeting tweet with id ${tweet.id_str}`);
+          await postRetweet(tweet.id_str);
+          await postFavorite(tweet.id_str);
+          console.log(
+            `Retweeting and favoriting tweet with id ${tweet.id_str}`
+          );
         }
       } catch (err) {
         console.error(err);
