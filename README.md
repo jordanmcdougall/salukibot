@@ -22,7 +22,7 @@ npm install
 npm run start
 ```
 
-Note: This project requires a **.env** file that users will need to populate with their own credentials. The project expexts the following values:
+Note: This project requires a **.env** file that users will need to populate with their own credentials. The project expects the following values:
 
 ```.env
 TWITTER_API_KEY=**********
