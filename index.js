@@ -84,14 +84,19 @@ const main = async () => {
           parseInt(tweet.id_str) !== parseInt(params.since_id) &&
           tweet.text !== params.last_text
         ) {
-          await postRetweet(tweet.id_str);
-          await postFavorite(tweet.id_str);
+          await postFavorite(tweet.id_str).then(async () => {
+            await postRetweet(tweet.id_str);
+          });
           console.log(
             `Retweeting and favoriting tweet with id ${tweet.id_str}`
           );
         }
       } catch (err) {
-        console.error(err);
+        console.error(
+          err.allErrors.map((error) => {
+            console.error(error.message);
+          })
+        );
       }
       params.since_id = parseInt(tweet.id_str);
       params.last_text = tweet.text;
