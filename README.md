@@ -1,6 +1,6 @@
 # salukibot (🐾🤖)
 
-![Twitter Follow](https://img.shields.io/twitter/follow/salukibot?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/salukibot?style=social)](https://twitter.com/salukibot)
 
 ![/img/finn_thesaluki.jpg](/img/finn_thesaluki.jpg)
 
